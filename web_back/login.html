@@ -23,11 +23,32 @@
             <form class="login_form">
                 <i class="iconfont icon-user"></i>
                 <i class="iconfont icon-key"></i>
-                <input type="text" class="input_txt" placeholder="邮箱/手机号">
-                <input type="password" class="input_pass" placeholder="密码">
-                <input type="submit" class="input_sub" value="登 录">
+                <input type="text" class="input_txt" id="username" placeholder="邮箱/手机号">
+                <input type="password" class="input_pass" id="password" placeholder="密码">
+                <input type="submit" class="input_sub" value="登 录" id="btn">
             </form>
         </div>
-    </div> 
+    </div>
 </body>
+<script src="js/jquery-1.12.4.min.js"></script>
+<!-- 用户登录 -->
+<script>
+    // 注册点击事件，点击后提交表单数据，验证数据是否正确，实现跳转
+    $("#btn").on("click", function () {
+        var username = $("#username").val().trim();
+        var password = $("#password").val().trim();
+        $.post("http://192.168.172.82:8000/admin/login", {
+            'user_name': username, 'password': password
+        }).then(function (res) {
+            if (res.code == 200) {
+                alert('登陆成功')
+                window.location.href = "index.html"
+            }
+            else {
+                alert(res.msg)
+            }
+        })
+    });
+</script>
+
 </html>
