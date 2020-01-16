@@ -113,25 +113,35 @@
 
 </body>
 <script src="./js/jquery-1.12.4.min.js"></script>
+<script src="js/config.js"></script>
 <script>
-    //点击退出按钮，退出登录界面
+    User = {
+        //点击退出按钮，退出登录界面
+        logout: function () {
+            $.post(APIURL.logout).then(function (res) {
+                if (res.code == 200) {
+                    window.location.href = 'login.html'
+                }
+                else {
+                    alert(res.msg)
+                }
+            });
+        },
+        //从后台获取数据，显示在index页面上
+        getUser: function () {
+            $.get(APIURL.getuser).then(function (res) {
+                $("#adminName img").attr("src", res.data.user_pic)
+                $("#adminName span").html(`欢迎&nbsp;&nbsp;${res.data.nickname}`)
+                $("#userImg img").attr("src", res.data.user_pic)
+            })
+        }
+    }
+</script>
+<script>
     $("#logout").on("click", function () {
-        $.post('http://10.253.1.128:8000/admin/logout').then(function (res) {
-            if(res.code == 200){
-                window.location.href = 'login.html'
-            }
-            else{
-                alert(res.msg)
-            }
-        });
+        User.logout();
     });
-
-    //从后台获取数据，显示在index页面上
-    $.get('http://10.253.1.128:8000/admin/getuser').then(function(res){
-        $("#adminName img").attr("src",res.data.user_pic)
-        $("#adminName span").html(`欢迎&nbsp;&nbsp;${res.data.nickname}`)
-        $("#userImg img").attr("src",res.data.user_pic)
-    })
+    User.getUser();
 </script>
 
 </html>
