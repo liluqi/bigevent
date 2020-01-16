@@ -16,7 +16,7 @@
 <body>
     <div class="sider">
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
-        <div class="user_info">
+        <div class="user_info" id="adminName">
             <img src="images/2.jpg" alt="person">
             <span>欢迎&nbsp;&nbsp;李思思</span>
             <b>管理员</b>
@@ -47,7 +47,7 @@
             <input type="text" placeholder="请输入搜索内容">
             <i class="iconfont icon-search"></i>
         </form>
-        <div class="user_center_link">
+        <div class="user_center_link" id="userImg">
             <a href="user.html" onclick="setMenu(3,0)" target="main_frame">个人中心</a>
             <img src="images/2.jpg" alt="person">
             <a href="#" id="logout"><i class="iconfont icon-tuichu"></i> 退出</a>
@@ -116,9 +116,21 @@
 <script>
     //点击退出按钮，退出登录界面
     $("#logout").on("click", function () {
-        $.post('http://192.168.172.82:8000/admin/logout').then(function (res) {
-            window.location.href = 'login.html'
-        })
+        $.post('http://10.253.1.128:8000/admin/logout').then(function (res) {
+            if(res.code == 200){
+                window.location.href = 'login.html'
+            }
+            else{
+                alert(res.msg)
+            }
+        });
+    });
+
+    //从后台获取数据，显示在index页面上
+    $.get('http://10.253.1.128:8000/admin/getuser').then(function(res){
+        $("#adminName img").attr("src",res.data.user_pic)
+        $("#adminName span").html(`欢迎&nbsp;&nbsp;${res.data.nickname}`)
+        $("#userImg img").attr("src",res.data.user_pic)
     })
 </script>
 

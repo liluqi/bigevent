@@ -37,7 +37,7 @@
     $("#btn").on("click", function () {
         var username = $("#username").val().trim();
         var password = $("#password").val().trim();
-        $.post("http://192.168.172.82:8000/admin/login", {
+        $.post("http://10.253.1.128:8000/admin/login", {
             'user_name': username, 'password': password
         }).then(function (res) {
             if (res.code == 200) {
