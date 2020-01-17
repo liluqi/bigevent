@@ -31,31 +31,26 @@
     </div>
 </body>
 <script src="js/jquery-1.12.4.min.js"></script>
+<script src="./js/User.js"></script>
 <script src="js/config.js"></script>
 <!-- 用户登录 -->
 <script>
-    User = {
-        login: function (username, password) {
-            $.post(APIURL.login, {
-                'user_name': username, 'password': password
-            }).then(function (res) {
-                if (res.code == 200) {
-                    alert('登陆成功')
-                    window.location.href = "index.html"
-                }
-                else {
-                    alert(res.msg)
-                }
-            })
-        }
-    }
+    
 </script>
 <script>
     // 注册点击事件，点击后提交表单数据，验证数据是否正确，实现跳转
     $("#btn").on("click", function () {
         var username = $("#username").val().trim();
         var password = $("#password").val().trim();
-        User.login(username, password);
+        User.login(username, password).then(function (res) {
+            if (res.code === 200) {
+                alert('登陆成功')
+                window.location.href = "index.html"
+            }
+            else {
+                alert(res.msg)
+            }
+        });
     });
 </script>
 
