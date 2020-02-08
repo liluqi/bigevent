@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/main.css">
+    <script src='./js/jquery-1.12.4.min.js'></script>
+    <script src='./js/config.js'></script>
+    <script src='./js/article.js'></script>
 </head>
 
 <body>
@@ -28,23 +31,11 @@
         <div class="menu">
             <div class="menu_collapse fl">
                 <a href="javascript:;" class="level_one"><i class="fa fa-list-ul"></i>全部分类</a>
-                <ul class="level_two">
+                <ul class="level_two" id='level_two'>
                     <li class="up"></li>
-                    <li><a href="#">最 新</a></li>
-                    <li><a href="#">科 技</a></li>
-                    <li><a href="#">股 市</a></li>
-                    <li><a href="#">商 品</a></li>
-                    <li><a href="#">外 汇</a></li>
-                    <li><a href="#">公 司</a></li>
                 </ul>
             </div>
-            <ul class="left_menu fl">
-                <li><a href="#">最 新</a></li>
-                <li><a href="#">科 技</a></li>
-                <li><a href="#">股 市</a></li>
-                <li><a href="#">商 品</a></li>
-                <li><a href="#">外 汇</a></li>
-                <li><a href="#">公 司</a></li>
+            <ul class="left_menu fl" id='left_menu'>
             </ul>
             <ul class="right_menu fr">
                 <li><a href="#">科技专题</a></li>
@@ -215,12 +206,21 @@
             <span>|</span>
             <a href="#">招聘人才</a>
             <span>|</span>
-            <a href="#">友情链接</a>		
+            <a href="#">友情链接</a>
         </div>
-        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司   All Rights Reserved</p>
-        <p>电话：0755-****888    粤ICP备*******8号</p>
+        <p>CopyRight © 2019 深圳大事件信息技术股份有限公司 All Rights Reserved</p>
+        <p>电话：0755-****888 粤ICP备*******8号</p>
     </div>
 
 </body>
+<script>
+    Article.getcategory().then(function (res) {
+        console.log(res);
+        res.data.forEach(function(item) {
+            $('#level_two').append(`<li><a href="#">${item.name}</a></li>`)
+            $('#left_menu').append(`<li><a href="#">${item.name}</a></li>`)
+        });
+    })
+</script>
 
 </html>

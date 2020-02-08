@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
     <script src="js/bootstrap/js/bootstrap.min.js"></script>
+    <script src='./js/template-web.js'></script>
+    <script src='./js/Util/config.js'></script>
+    <script src='./js/Util/category.js'></script>
 </head>
 
 <body>
@@ -28,47 +31,7 @@
                         <th class="text-center" width="100">操作</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>未分类</td>
-                        <td>uncategorized</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>奇趣事</td>
-                        <td>funny</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;2&quot;,&quot;slug&quot;:&quot;funny&quot;,&quot;name&quot;:&quot;奇趣事&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 2 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>会生活</td>
-                        <td>living</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;3&quot;,&quot;slug&quot;:&quot;living&quot;,&quot;name&quot;:&quot;会生活&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 3 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>爱旅行</td>
-                        <td>travel</td>
-                        <td class="text-center">
-                            <a href="javascript:editTr({&quot;id&quot;:&quot;4&quot;,&quot;slug&quot;:&quot;travel&quot;,&quot;name&quot;:&quot;爱旅行&quot;});"
-                                class="btn btn-info btn-xs">编辑</a>
-                            <a href="javascript:deleteTr( 4 );" class="btn btn-danger btn-xs">删除</a>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody id='atc_catg'></tbody>
                 <tfoot>
                     <tr>
                         <td colspan="3" class="text-center">
@@ -131,6 +94,59 @@
         // })      
     </script>
 
+
+    <!-- 文章分类-显示 start-->
+
+    <script type='text/html' id='atc_catg_get'>
+        {{each data item idx}}
+        <tr>
+            <td>{{item.name}}</td>
+            <td>{{item.slug}}</td>
+            <td class="text-center">
+                <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
+                    class="btn btn-info btn-xs">编辑</a>
+                <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs" id='btnDel' index='{{item.id}}' >删除</a>
+            </td>
+        </tr>
+        {{/each}}
+    </script>
+
+    <script>
+        getAndShow();
+        function getAndShow(){
+            Category.category_get().then(function (res) {
+            let TblStr = template('atc_catg_get',res)
+            $('#atc_catg').html(TblStr);
+            })
+        }
+        
+    </script>
+
+    <!-- 文章分类-显示 end-->
+    
+
+    <!-- 文章分类-删除 start -->
+    <script>
+        $('#atc_catg').on('click','#btnDel',function(){
+            if(window.confirm("您确定要删除吗?") === false){
+                //取消
+                return;
+            }
+            var id = $(this).attr('index');//**重点:写时忘记用this**
+            //console.log(id);
+            
+            Category.category_del(id).then(function (res){
+                console.log(res);
+                if(code === 200){
+                    getAndShow();
+                }
+                else{
+                    alert(res.msg)
+                }
+            })
+        })
+        
+    </script>
 </body>
 
 </html>
