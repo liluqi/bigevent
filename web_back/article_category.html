@@ -58,7 +58,7 @@
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="control-label">分类别名:</label>
-                            <input type="text" class="form-control" id="recipient-name">
+                            <input type="text" class="form-control" id="recipient-sulg">
                         </div>
                     </form>
                 </div>
@@ -105,7 +105,7 @@
             <td class="text-center">
                 <a href="javascript:editTr({&quot;id&quot;:&quot;1&quot;,&quot;slug&quot;:&quot;uncategorized&quot;,&quot;name&quot;:&quot;未分类&quot;});"
                     class="btn btn-info btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs" id='btnDel' index='{{item.id}}' >删除</a>
+                <a href="#" class="btn btn-danger btn-xs" id='btnDel' index='{{item.id}}' >删除</a>
             </td>
         </tr>
         {{/each}}
@@ -137,7 +137,7 @@
             
             Category.category_del(id).then(function (res){
                 console.log(res);
-                if(code === 200){
+                if(res.code == 200){
                     getAndShow();
                 }
                 else{
@@ -148,6 +148,32 @@
         
     </script>
     <!-- 文章分类-删除 end -->
+
+    <!-- 文章分类-新增 start -->
+    <script>       
+        $('#model_add').on('click',function(){
+            // alert(1)
+            var name = $('#recipient-name').val().trim();
+            var slug = $('#recipient-sulg').val().trim();
+            if(name == '' || slug == ''){
+                alert("用户名密码不能为空!")
+                return;
+            }
+            Category.category_add(name,slug).then(function (res){
+                // console.log(res);
+                if(res.code == 200){
+                    getAndShow();
+                    $('#recipient-name').val('')
+                    $('#recipient-sulg').val('')
+                    $('#addModal').modal('hide');//JQ动画效果
+                }
+                else{
+                    alert(res.msg)
+                }
+            })
+        })
+    </script>
+    <!-- 文章分类-新增 end -->
 </body>
 
 </html>
