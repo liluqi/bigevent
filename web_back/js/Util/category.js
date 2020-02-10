@@ -9,5 +9,8 @@ Category = {
     },
     category_add: function (name, slug) {
         return $.post(APIURL.category.category_add,{'name': name,'slug': slug})
+    },
+    category_edit: function (id,name,slug) {
+        return $.post(APIURL.category.category_edit,{'id': id,'name': name,'slug':slug})        
     }
 }
