@@ -15,5 +15,9 @@ var APIURL = {
         category_del:  BASEURL + 'admin/category_delete',
         // 编辑文章分类
         category_edit:  BASEURL + 'admin/category_edit',
+    },
+    article: {
+        //查询所有文章
+        article_get: BASEURL + 'admin/search',
     }
 }
